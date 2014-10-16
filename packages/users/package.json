@@ -1,0 +1,14 @@
+{
+    "name": "users",
+    "version": "0.0.1",
+    "description": "Users package",
+    "author": {
+    },
+    "dolphin": "0.1.x",
+    "engines": {
+        "node": "0.10.x",
+        "npm": "1.4.x"
+    },
+    "dependencies": {},
+    "license": "MIT"
+}
