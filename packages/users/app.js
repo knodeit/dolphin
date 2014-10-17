@@ -5,30 +5,26 @@
  */
 var Module = require('dolphinio').Module;
 
-var MeanUser = new Module('users');
+var User = new Module('users');
 
-/*
- * All MEAN packages require registration
- * Dependency injection is used to define required modules
- */
-MeanUser.register(function (app, auth, passport, database) {
+User.register(function (app, auth, database, passport) {
 
     //We enable routing. By default the Package Object is passed to the routes
-    MeanUser.routes(app, auth, database, passport);
-    MeanUser.aggregateAsset('js', 'meanUser.js');
+    User.routes(app, auth, database, passport);
+    User.aggregateAsset('js', 'userController.js');
 
     /**
      // Another save settings example this time with no callback
      // This writes over the last settings.
-     MeanUser.settings({
+     User.settings({
         'anotherSettings': 'some value'
     });
 
      // Get settings. Retrieves latest saved settigns
-     MeanUser.settings(function(err, settings) {
+     User.settings(function(err, settings) {
         //you now have the settings object
     });
      */
 
-    return MeanUser;
+    return User;
 });

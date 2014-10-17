@@ -12,7 +12,6 @@ var Access = new Module('access');
 Access.register(function (database) {
 
     // Register auth dependency
-
     var auth = require('./server/config/authorization');
     require('./server/config/passport')(passport);
 
@@ -27,6 +26,5 @@ Access.register(function (database) {
 
     Access.passport = passport;
     Access.middleware = auth;
-
     return Access;
 });

@@ -9,12 +9,12 @@ var Module = require('dolphinio').Module,
 
 var System = new Module('system');
 
-System.register(function(app, auth, database) {
+System.register(function(app, auth, database, passport) {
 
   //We enable routing. By default the Package Object is passed to the routes
-  System.routes(app, auth, database);
+  System.routes(app, auth, database, passport);
 
-  System.aggregateAsset('css', 'common.css');
+  System.aggregateAsset('css', 'system.css');
 
   // The middleware in config/express will run before this code
 
