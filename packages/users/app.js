@@ -11,7 +11,7 @@ User.register(function (app, auth, database, passport) {
 
     //We enable routing. By default the Package Object is passed to the routes
     User.routes(app, auth, database, passport);
-    User.aggregateAsset('js', 'userController.js');
+    User.aggregateAsset('js', 'user.js');
 
     /**
      // Another save settings example this time with no callback

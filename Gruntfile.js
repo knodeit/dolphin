@@ -1,9 +1,10 @@
 'use strict';
 
 var paths = {
-    js: ['*.js', 'test/**/*.js', '!test/coverage/**', '!bower_components/**', 'packages/**/*.js', '!packages/**/node_modules/**', '!packages/contrib/**/*.js', '!packages/contrib/**/node_modules/**'],
+    js: ['*.js', 'test/**/*.js', '!test/coverage/**', '!bower_components/**', 'packages/**/*.js', '!packages/**/node_modules/**'],
     html: ['packages/**/public/**/views/**', 'packages/**/server/views/**'],
-    css: ['!bower_components/**', 'packages/**/public/**/css/*.css', '!packages/contrib/**/public/**/css/*.css']
+    css: ['!bower_components/**', 'packages/custom/**/public/assets/css/*.css'],
+    less: ['!bower_components/**', 'packages/custom/**/public/assets/css/*.less']
 };
 
 module.exports = function (grunt) {
@@ -28,13 +29,12 @@ module.exports = function (grunt) {
             html: {
                 files: paths.html,
                 options: {
-                    livereload: true,
-                    interval: 500
+                    livereload: true
                 }
             },
-            css: {
-                files: paths.css,
-                tasks: ['csslint'],
+            less: {
+                files: paths.less,
+                tasks: ['less:development', 'csslint'],
                 options: {
                     livereload: true
                 }
@@ -67,6 +67,33 @@ module.exports = function (grunt) {
                 files: '<%= assets.core.css %>'
             }
         },
+        less: {
+            development: {
+                files: [
+                    {
+                        expand: true,     // Enable dynamic expansion.
+                        cwd: 'packages',      // Src matches are relative to this path.
+                        src: ['**/public/assets/css/*.less'], // Actual pattern(s) to match.
+                        dest: 'packages',   // Destination path prefix.
+                        ext: '.css'  // Dest filepaths will have this extension.
+                    }
+                ]
+            },
+            production: {
+                options: {
+                    cleancss: true
+                },
+                files: [
+                    {
+                        expand: true,     // Enable dynamic expansion.
+                        cwd: 'packages',      // Src matches are relative to this path.
+                        src: ['**/public/assets/css/*.less'], // Actual pattern(s) to match.
+                        dest: 'packages',   // Destination path prefix.
+                        ext: '.css'  // Dest filepaths will have this extension.
+                    }
+                ]
+            }
+        },
         nodemon: {
             dev: {
                 script: 'server.js',
@@ -96,7 +123,7 @@ module.exports = function (grunt) {
                     }
                 ]
             },
-            src: ['packages/**/server/tests/**/*.js']
+            all: { src: ['packages/**/server/tests/**/*.js'] }
         },
         env: {
             test: {
@@ -110,8 +137,9 @@ module.exports = function (grunt) {
 
     //Default task(s).
     if (process.env.NODE_ENV !== 'production') {
-        grunt.registerTask('default', ['clean', 'jshint', 'csslint', 'concurrent']);
+        grunt.registerTask('default', ['clean', 'less:development', 'jshint', 'csslint', 'concurrent']);
     }
-    grunt.registerTask('init', ['clean', 'cssmin', 'uglify']);
-    grunt.registerTask('test', ['env:test', 'mochaTest']);
+    grunt.registerTask('init', ['clean', 'less:production', 'cssmin', 'uglify']);
+
+    grunt.registerTask('test', ['env:test', 'mochaTest:all']);
 };

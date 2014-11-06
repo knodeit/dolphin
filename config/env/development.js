@@ -33,10 +33,12 @@ module.exports = {
     },
     emailFrom: 'SENDER EMAIL ADDRESS', // sender address like ABC <abc@example.com>
     mailer: {
-        service: 'SERVICE_PROVIDER', // Gmail, SMTP
+        emailFrom: '',
+        host: 'localhost',
+        port: 25,
         auth: {
-            user: 'EMAIL_ID',
-            pass: 'PASSWORD'
+            user: '',
+            pass: ''
         }
     }
 };

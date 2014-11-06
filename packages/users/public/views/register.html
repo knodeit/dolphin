@@ -1,66 +1,47 @@
 <div data-ng-controller="RegisterCtrl">
-    <div ng-repeat="error in registerError">
-        <div class="alert alert-danger animated fadeIn">{{error.msg}}</div>
-    </div>
-    <div class="alert alert-danger animated fadeIn" ng-show="usernameError">{{usernameError}}</div>
-    <div class="alert alert-danger animated fadeIn" ng-show="emailError">{{emailError}}</div>
-    <form id="register_form" ng-submit="register()">
+    <form id="register_form" ng-submit="register()" novalidate>
         <h2>Sign Up</h2>
 
-        <div class="input-wrapper">
-            <input required id="name" type="text" name="name" placeholder="Full Name"
-                   ng-model="user.name">
+        <div class="col-md-5">
+            <div class="row">
+                <div ng-show="errors.global" class="alert alert-info" role="alert">
+                    {{errors.global}}
+                </div>
 
-            <div class="error_message">Please enter a correct info #</div>
-            <span class="pic user"></span>
-        </div>
+                <div class="form-group" ng-class="{'has-error': errors.name}">
+                    <label for="inputName" class="control-label">Full Name</label>
+                    <input type="text" class="form-control" id="inputName" ng-model="user.name">
 
-        <div class="input-wrapper">
-            <input required id="email_block" type="email" name="email" placeholder="Email Address"
-                   ng-model="user.email">
+                    <div class="help-block" ng-show="errors.name">{{errors.name}}</div>
+                </div>
 
-            <div class="error_message">Please enter a correct info #</div>
-            <span class="pic email"></span>
-        </div>
+                <div class="form-group" ng-class="{'has-error': errors.username}">
+                    <label for="inputUsername" class="control-label">User name</label>
+                    <input type="text" class="form-control" id="inputUsername" ng-model="user.username">
 
-        <div class="input-wrapper">
-            <input required id="username" type="text" name="username" placeholder="Username"
-                   ng-model="user.username">
+                    <div class="help-block" ng-show="errors.username">{{errors.username}}</div>
+                </div>
 
-            <div class="error_message">Please enter a correct info #</div>
-            <span class="pic username"></span>
-        </div>
+                <div class="form-group" ng-class="{'has-error': errors.email}">
+                    <label for="inputEmail" class="control-label">Email address</label>
+                    <input type="email" class="form-control" id="inputEmail" ng-model="user.email">
+                    <div class="help-block" ng-show="errors.email">{{errors.email}}</div>
+                </div>
 
-        <div class="input-wrapper">
-            <input required id="password_block" name="password" type="{{input.type}}"
-                   placeholder="{{input.placeholder}}" ng-model="user.password">
+                <div class="form-group" ng-class="{'has-error': errors.password}">
+                    <label for="inputPassword" class="control-label">Password</label>
+                    <input type="password" class="form-control" id="inputPassword" ng-model="user.password">
+                    <div class="help-block" ng-show="errors.password">{{errors.password}}</div>
+                </div>
 
-            <div class="error_message">Please enter a correct info #</div>
-        <span class="pic password {{input.iconClass}}" ng-click="togglePasswordVisible()">
-              <div class="hide_text_password">
-                  {{input.tooltipText}}
-              </div>
-        </span>
-        </div>
-        <div class="input-wrapper">
-            <input required id="confirm_password" name="confirm_password" type="{{input.type}}"
-                   placeholder="{{input.placeholderConfirmPass}}" ng-model="user.confirmPassword">
+                <div class="form-group" ng-class="{'has-error': errors.confirmPassword}">
+                    <label for="inputPassword2" class="control-label">Password</label>
+                    <input type="password" class="form-control" id="inputPassword2" ng-model="user.confirmPassword">
+                    <div class="help-block" ng-show="errors.confirmPassword">{{errors.confirmPassword}}</div>
+                </div>
 
-            <div class="error_message">Please enter a correct info #</div>
-        <span class="pic password {{input.iconClassConfirmPass}}" ng-click="togglePasswordConfirmVisible()">
-              <div class="hide_text_password">
-                  {{input.tooltipTextConfirmPass}}
-              </div>
-        </span>
-        </div>
-
-        <div class="button_register">
-            <button type="submit" class="submit_button">Sign up</button>
-            <p>Already have an account?</p>
-            <a ui-sref='auth.login'>Log in</a>
-        </div>
-        <div class="woman_ninja_bottom">
-            <img src="/theme/assets/img/woman_ninja.png" alt="#">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
         </div>
     </form>
 </div>

@@ -1,17 +1,17 @@
 'use strict';
 
-angular.module('dolphin-factory-interceptor', []).factory('httpInterceptor', ['$q', '$location', function ($q, $state) {
+angular.module('dolphin-factory-interceptor', []).factory('httpInterceptor', ['$q', '$location', function ($q, $location) {
     return {
         'response': function (response) {
             if (response.status === 401) {
-                $state.go('auth.login');
+                $location.path('/auth/login');
                 return $q.reject(response);
             }
             return response || $q.when(response);
         },
         'responseError': function (rejection) {
             if (rejection.status === 401) {
-                $state.go('auth.login');
+                $location.path('/auth/login');
                 return $q.reject(rejection);
             }
             return $q.reject(rejection);

@@ -16,7 +16,7 @@ exports.render = function (req, res) {
 
     // Send some basic starting info to the view
     res.render('index', {
-        user: req.user ? req.user : {},
+        user: req.user ? req.user : null,
         modules: modules
     });
 };

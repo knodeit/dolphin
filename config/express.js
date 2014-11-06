@@ -70,7 +70,7 @@ module.exports = function (app, passport, db) {
     var assets = assetmanager.process({
         assets: require('./assets.json'),
         debug: process.env.NODE_ENV !== 'production',
-        webroot: /public\/|packages\//g
+        webroot: /packages\/custom\//g
     });
 
     // Add assets to local variables
@@ -95,9 +95,6 @@ module.exports = function (app, passport, db) {
         resave: true,
         saveUninitialized: true
     }));
-
-    // Dynamic helpers
-    app.use(helpers(config.app.name));
 
     // Use passport session
     app.use(passport.initialize());
