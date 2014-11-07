@@ -2,7 +2,6 @@
 
 var paths = {
     js: ['*.js', 'test/**/*.js', '!test/coverage/**', '!bower_components/**', 'packages/**/*.js', '!packages/**/node_modules/**'],
-    html: ['packages/**/public/**/views/**', 'packages/**/server/views/**'],
     css: ['!bower_components/**', 'packages/custom/**/public/assets/css/*.css'],
     less: ['!bower_components/**', 'packages/custom/**/public/assets/css/*.less']
 };
@@ -22,12 +21,6 @@ module.exports = function (grunt) {
             js: {
                 files: paths.js,
                 tasks: ['jshint'],
-                options: {
-                    livereload: true
-                }
-            },
-            html: {
-                files: paths.html,
                 options: {
                     livereload: true
                 }
@@ -100,7 +93,7 @@ module.exports = function (grunt) {
                 options: {
                     args: [],
                     ignore: ['node_modules/**'],
-                    ext: 'js,html,css',
+                    ext: 'js,css',
                     nodeArgs: ['--debug'],
                     delayTime: 1,
                     cwd: __dirname

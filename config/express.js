@@ -27,10 +27,7 @@ module.exports = function (app, passport, db) {
 
     // Prettify HTML
     app.locals.pretty = true;
-
-    if (env === 'production') {
-        swig.setDefaults({ cache: 'memory', allowErrors: false });
-    }
+    app.locals.cache = 'memory';
 
     if (env === 'development') {
         swig.setDefaults({ cache: false, allowErrors: true });
