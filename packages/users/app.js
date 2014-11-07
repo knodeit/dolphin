@@ -4,10 +4,13 @@
  * Defining the Package
  */
 var Module = require('dolphinio').Module;
-
 var User = new Module('users');
 
+var mongoose = require('mongoose'),
+    modelUser = mongoose.model('User');
+
 User.register(function (app, auth, database, passport) {
+    modelUser.createRootUser();
 
     //We enable routing. By default the Package Object is passed to the routes
     User.routes(app, auth, database, passport);

@@ -43,7 +43,5 @@ module.exports = {
 
     // The session cookie name
     sessionName: 'connect.sid',
-    app: {
-        name: 'Dolphin - FullStack JS - Development'
-    }
+    version: '1.0.0'
 };

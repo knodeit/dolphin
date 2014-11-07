@@ -7,6 +7,9 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
     crypto = require('crypto');
 
+var uuid = require('node-uuid');
+var chalk = require('chalk');
+
 /**
  * Validations
  */
@@ -68,13 +71,16 @@ var UserSchema = new Schema({
         default: 'local'
     },
     salt: String,
-    resetPasswordToken: String,
-    resetPasswordExpires: Date,
-    facebook: {},
-    twitter: {},
-    github: {},
-    google: {},
-    linkedin: {}
+    resetPasswordToken: {
+        type: String
+    },
+    resetPasswordExpires: {
+        type: Date
+    },
+    appVersion: {
+        type: String,
+        default: '1.0.0'
+    }
 });
 
 /**
@@ -157,6 +163,47 @@ UserSchema.methods = {
         var salt = new Buffer(this.salt, 'base64');
         return crypto.pbkdf2Sync(password, salt, 10000, 64).toString('base64');
     }
+};
+
+UserSchema.statics.createRootUser = function () {
+    var User = mongoose.model('User');
+    var AccessToken = mongoose.model('AccessToken');
+
+    var userName = 'root';
+    User.findOne({name: userName}).exec(function (err, rootUser) {
+        if (rootUser) {
+            return;
+        }
+        console.log(chalk.green('Auto installing root user'));
+
+        rootUser = new User();
+        rootUser.name = userName;
+        rootUser.username = userName;
+        rootUser.email = 'admin@admin.com';
+        rootUser.password = 'administrator';
+        rootUser.roles = ['admin', 'authenticated'];
+        rootUser.save(function (err, rootUser) {
+            if (err) {
+                return console.log('Error', err);
+            }
+            console.log(chalk.green('Email:'), chalk.yellow(rootUser.email));
+            console.log(chalk.green('Password:'), chalk.yellow(rootUser.password));
+
+            var row = new AccessToken();
+            row.name = 'ROOTACCESS';
+            row.user = rootUser._id;
+            row.token = uuid.v4();
+            row.blocked = false;
+            row.default = true;
+            row.save(function (err, row) {
+                if (err) {
+                    return console.log('Error', err);
+                }
+                console.log(chalk.green('AccessToken:'), chalk.yellow(row.token));
+                console.log(chalk.green('try:'), chalk.yellow('/api/test?access_token=' + row.token));
+            });
+        });
+    });
 };
 
 mongoose.model('User', UserSchema);

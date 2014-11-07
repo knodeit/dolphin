@@ -2,6 +2,8 @@
 
 var mongoose = require('mongoose'),
     LocalStrategy = require('passport-local').Strategy,
+    LocalApiStrategy = require('../../../../vendor/passport-localapi').Strategy,
+    AccessToken = mongoose.model('AccessToken'),
     User = mongoose.model('User');
 
 module.exports = function (passport) {
@@ -44,6 +46,21 @@ module.exports = function (passport) {
                     });
                 }
                 return done(null, user);
+            });
+        }
+    ));
+
+    //use api strategy
+    passport.use(new LocalApiStrategy(
+        function (token, done) {
+            AccessToken.findOne({token: token}).populate('user').exec(function (err, row) {
+                if (err) {
+                    return done(err);
+                }
+                if (!row || row.blocked || !row.user) {
+                    return done(null, false);
+                }
+                return done(null, row.user);
             });
         }
     ));

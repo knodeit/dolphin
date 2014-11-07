@@ -61,7 +61,9 @@
         "time-grunt": "^1.0.0",
         "view-helpers": "^0.1.4",
         "multer": "^0.1.6",
-        "q": "^1.0.1"
+        "q": "^1.0.1",
+        "node-uuid": "^1.4.1",
+        "chalk": "^0.5.1"
     },
     "devDependencies": {
         "grunt-karma": "^0.8.2",

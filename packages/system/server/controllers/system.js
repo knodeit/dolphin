@@ -1,6 +1,7 @@
 'use strict';
 
 var dolphin = require('dolphinio');
+var config = require('dolphinio').loadConfig();
 
 exports.render = function (req, res) {
 
@@ -18,5 +19,18 @@ exports.render = function (req, res) {
     res.render('index', {
         user: req.user ? req.user : null,
         modules: modules
+    });
+};
+
+exports.getVersion = function (req, res) {
+    res.json({
+        version: config.version
+    });
+};
+
+exports.test = function (req, res) {
+    res.json({
+        username: req.user.username,
+        roles: req.user.roles
     });
 };
