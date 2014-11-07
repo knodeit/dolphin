@@ -18,16 +18,23 @@ var helpers = require('view-helpers');
 var flash = require('connect-flash');
 var config = dolphin.loadConfig();
 var multer = require('multer');
+var swig = require('swig');
 
 module.exports = function (app, passport, db) {
+    var env = process.env.NODE_ENV || 'development';
 
     app.set('showStackError', true);
 
     // Prettify HTML
     app.locals.pretty = true;
 
-    // cache=memory or swig dies in NODE_ENV=production
-    app.locals.cache = 'memory';
+    if (env === 'production') {
+        swig.setDefaults({ cache: 'memory', allowErrors: false });
+    }
+
+    if (env === 'development') {
+        swig.setDefaults({ cache: false, allowErrors: true });
+    }
 
     // Should be placed before express.static
     // To ensure that all assets and data are compressed (utilize bandwidth)
@@ -37,13 +44,13 @@ module.exports = function (app, passport, db) {
         level: 9
     }));
 
-    // Only use logger for development environment
-    if (process.env.NODE_ENV === 'development') {
+    // Logger for development environment
+    if (env !== 'production') {
         app.use(morgan('dev'));
     }
 
     // assign the template engine to .html files
-    app.engine('html', consolidate[config.templateEngine]);
+    app.engine('html', consolidate['swig']);
 
     // set .html as the default extension
     app.set('view engine', 'html');
@@ -69,8 +76,7 @@ module.exports = function (app, passport, db) {
     // Import the assets file and add to locals
     var assets = assetmanager.process({
         assets: require('./assets.json'),
-        debug: process.env.NODE_ENV !== 'production',
-        webroot: /packages\/custom\//g
+        debug: process.env.NODE_ENV !== 'production'
     });
 
     // Add assets to local variables
@@ -81,6 +87,13 @@ module.exports = function (app, passport, db) {
             res.locals.headerJs = data;
             next();
         });
+    });
+
+    // Add static assets to local variables
+    app.use(function (req, res, next) {
+        res.locals.staticAssetsJs = Object.keys(dolphin.staticAssetsJs);
+        res.locals.staticAssetsCss = Object.keys(dolphin.staticAssetsCss);
+        next();
     });
 
     // Express/Mongo session storage
