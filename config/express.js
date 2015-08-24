@@ -19,6 +19,7 @@ var flash = require('connect-flash');
 var config = dolphin.loadConfig();
 var multer = require('multer');
 var swig = require('swig');
+var path = require('path');
 
 module.exports = function (app, passport, db) {
     var env = process.env.NODE_ENV || 'development';
@@ -30,7 +31,7 @@ module.exports = function (app, passport, db) {
     app.locals.cache = 'memory';
 
     if (env === 'development') {
-        swig.setDefaults({ cache: false, allowErrors: true });
+        swig.setDefaults({cache: false, allowErrors: true});
     }
 
     // Should be placed before express.static
@@ -80,9 +81,37 @@ module.exports = function (app, passport, db) {
     app.use(function (req, res, next) {
         res.locals.assets = assets;
 
+        var toStaticResource = function (filePath) {
+            if (!filePath) {
+                return '';
+            }
+            var pathSplit = filePath.split(path.sep);
+            var pubIndex = pathSplit.indexOf('public');
+            if (pubIndex !== -1) {
+                pathSplit.splice(pubIndex, 1);
+                pathSplit.splice(0, pubIndex - 1);
+                return pathSplit.join(path.sep);
+            }
+
+        };
+
         dolphin.aggregated('js', 'header', function (data) {
             res.locals.headerJs = data;
-            next();
+            if (process.env.NODE_ENV === 'development') {
+                dolphin.aggregatedObj('js', 'footer', function (obj) {
+                    res.locals.assets.devPublic = [];
+                    if (obj.weights) {
+                        for (var file in obj.weights) {
+                            if (obj.weights.hasOwnProperty(file)) {
+                                res.locals.assets.devPublic.push(toStaticResource(file + '?v=' + Math.floor((Math.random() * 100000) + 1)));
+                            }
+                        }
+                    }
+                    next();
+                });
+            } else {
+                next();
+            }
         });
     });
 
@@ -109,9 +138,6 @@ module.exports = function (app, passport, db) {
     // Use passport session
     app.use(passport.initialize());
     app.use(passport.session());
-
-    //dolphin middleware from modules before routes
-    app.use(dolphin.chainware.before);
 
     // Connect flash for flash messages
     app.use(flash());

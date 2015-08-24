@@ -6,7 +6,7 @@ var path = require('path'),
 module.exports = {
     root: rootPath,
     http: {
-        port: process.env.PORT || 3000
+        port: process.env.PORT || 3066
     },
     https: {
         port: false,
@@ -43,5 +43,7 @@ module.exports = {
 
     // The session cookie name
     sessionName: 'connect.sid',
-    version: '1.0.0'
+    version: '1.0.0',
+    uploadVideoPath: 'static/video',
+    uploadStaticPath: 'static'
 };

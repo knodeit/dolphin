@@ -1,17 +1,25 @@
 'use strict';
 
 //Global service for global variables
-angular.module('dolphin.system').factory('Global', ['$rootScope', function ($rootScope) {
-    var _this = this;
-    _this = {
-        user: window.user,
-        authenticated: false,
-        isAdmin: false
-    };
-    if (window.user && window.user._id) {
-        _this.authenticated = window.user._id ? true : false;
-        _this.isAdmin = window.user.roles.indexOf('admin') !== -1;
+angular.module('dolphin.system').factory('Global', ['$rootScope', 'AclService',
+    function ($rootScope, AclService) {
+        this.user = window.user;
+        this.authenticated = window.user && window.user._id;
+
+        this.attachRoles = function (user) {
+            var userRoles = user.roles;
+            if (!angular.isArray(userRoles)) {
+                userRoles = [userRoles];
+            }
+            userRoles.forEach(function (role) {
+                AclService.attachRole(role);
+            });
+        };
+
+        //init if user refresh a page
+        if (this.user) {
+            this.attachRoles(this.user);
+        }
+        return this;
     }
-    $rootScope.Global = _this;
-    return _this;
-}]);
+]);

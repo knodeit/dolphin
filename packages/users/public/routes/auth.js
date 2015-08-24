@@ -12,7 +12,7 @@ angular.module('dolphin.users').config(['$stateProvider', function ($stateProvid
             // Authenticated
             if (user) {
                 deferred.reject();
-                $state.go('home');
+                $state.go('front.index');
             }
             // Not Authenticated
             else {
@@ -24,34 +24,9 @@ angular.module('dolphin.users').config(['$stateProvider', function ($stateProvid
 
     // states for my app
     $stateProvider
-        .state('auth', {
-            url: '/auth',
-            templateUrl: 'users/views/index.html'
-        })
-        .state('auth.login', {
+        .state('front.login', {
             url: '/login',
             templateUrl: 'users/views/login.html',
-            resolve: {
-                loggedin: checkLoggedOut
-            }
-        })
-        .state('auth.register', {
-            url: '/register',
-            templateUrl: 'users/views/register.html',
-            resolve: {
-                loggedin: checkLoggedOut
-            }
-        })
-        .state('auth.forgot-password', {
-            url: '/forgot-password',
-            templateUrl: 'users/views/forgot-password.html',
-            resolve: {
-                loggedin: checkLoggedOut
-            }
-        })
-        .state('auth.reset-password', {
-            url: '/reset/:tokenId',
-            templateUrl: 'users/views/reset-password.html',
             resolve: {
                 loggedin: checkLoggedOut
             }

@@ -3,21 +3,15 @@
 /**
  * Module dependencies.
  */
-var mongoose = require('mongoose'),
-    Schema = mongoose.Schema,
-    crypto = require('crypto');
-
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
+var crypto = require('crypto');
 var uuid = require('node-uuid');
 var chalk = require('chalk');
 
 /**
  * Validations
  */
-var validatePresenceOf = function (value) {
-    // If you are authenticating by any of the oauth strategies, don't validate.
-    return (this.provider && this.provider !== 'local') || (value && value.length);
-};
-
 var validateUniqueEmail = function (value, callback) {
     var User = mongoose.model('User');
     User.find({
@@ -41,30 +35,22 @@ var validateUniqueEmail = function (value, callback) {
  */
 
 var UserSchema = new Schema({
-    name: {
-        type: String,
-        required: true
-    },
     email: {
         type: String,
-        required: true,
         unique: true,
         // Regexp to validate emails with more strict rules as added in tests/users.js which also conforms mostly with RFC2822 guide lines
         match: [/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, 'Please enter a valid email'],
         validate: [validateUniqueEmail, 'E-mail address is already in-use']
     },
     username: {
-        type: String,
-        unique: true,
-        required: true
+        type: String
     },
     roles: {
         type: Array,
-        default: ['authenticated']
+        default: []
     },
     hashed_password: {
-        type: String,
-        validate: [validatePresenceOf, 'Password cannot be blank']
+        type: String
     },
     provider: {
         type: String,
@@ -80,6 +66,14 @@ var UserSchema = new Schema({
     appVersion: {
         type: String,
         default: '1.0.0'
+    },
+    verified: {
+        type: Boolean,
+        default: false
+    },
+    blocked: {
+        type: Boolean,
+        default: false
     }
 });
 
@@ -104,6 +98,39 @@ UserSchema.pre('save', function (next) {
 });
 
 /**
+ * Validations
+ */
+UserSchema.path('username').validate(function (row) {
+    return !!row;
+}, 'Username cannot be blank');
+
+UserSchema.path('username').validate(function (value, callback) {
+    if (!value) {
+        return callback(true);
+    }
+
+    var User = mongoose.model('User');
+    var $this = this;
+    var query = {
+        username: value
+    };
+    if (!this.isNew) {
+        query._id = {$ne: $this._id};
+    }
+    User.findOne(query).exec(function (err, row) {
+        if (row) {
+            callback(false);
+        } else {
+            callback(true);
+        }
+    });
+}, 'Username already exists');
+
+UserSchema.path('email').validate(function (row) {
+    return !!row;
+}, 'Email cannot be blank');
+
+/**
  * Methods
  */
 UserSchema.methods = {
@@ -117,17 +144,7 @@ UserSchema.methods = {
      */
     hasRole: function (role) {
         var roles = this.roles;
-        return roles.indexOf('admin') !== -1 || roles.indexOf(role) !== -1;
-    },
-
-    /**
-     * IsAdmin - check if the user is an administrator
-     *
-     * @return {Boolean}
-     * @api public
-     */
-    isAdmin: function () {
-        return this.roles.indexOf('admin') !== -1;
+        return roles.indexOf(role) !== -1;
     },
 
     /**
@@ -165,26 +182,25 @@ UserSchema.methods = {
     }
 };
 
-UserSchema.statics.createRootUser = function () {
+UserSchema.statics.createRootUser = function (email, password, callback) {
     var User = mongoose.model('User');
     var AccessToken = mongoose.model('AccessToken');
 
-    var userName = 'root';
-    User.findOne({name: userName}).exec(function (err, rootUser) {
+    User.findOne({email: email}).exec(function (err, rootUser) {
         if (rootUser) {
-            return;
+            return callback(null, rootUser);
         }
-        console.log(chalk.green('Auto installing root user'));
 
         rootUser = new User();
-        rootUser.name = userName;
-        rootUser.username = userName;
-        rootUser.email = 'admin@admin.com';
-        rootUser.password = 'administrator';
-        rootUser.roles = ['admin', 'authenticated'];
+        rootUser.username = 'root';
+        rootUser.email = email;
+        rootUser.password = password;
+        rootUser.roles = ['root', 'admin'];
+        rootUser.verified = true;
         rootUser.save(function (err, rootUser) {
             if (err) {
-                return console.log('Error', err);
+                console.log('Error', err);
+                return callback(err);
             }
             console.log(chalk.green('Email:'), chalk.yellow(rootUser.email));
             console.log(chalk.green('Password:'), chalk.yellow(rootUser.password));
@@ -202,7 +218,18 @@ UserSchema.statics.createRootUser = function () {
                 console.log(chalk.green('AccessToken:'), chalk.yellow(row.token));
                 console.log(chalk.green('try:'), chalk.yellow('/api/test?access_token=' + row.token));
             });
+            callback(null, rootUser);
         });
+    });
+};
+
+UserSchema.statics.loginInByEmail = function (email, callback) {
+    var User = mongoose.model('User');
+    User.findOne({email: new RegExp('^' + email + '$', 'i')}).exec(function (err, user) {
+        if (user) {
+            return callback(user);
+        }
+        callback(null);
     });
 };
 

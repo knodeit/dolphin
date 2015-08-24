@@ -1,7 +1,7 @@
 #!/bin/bash
 
 NAME=Dolphin #project's name
-export NODE_ENV=production      #namespace
+#export NODE_ENV=production      #namespace
 export HOST=127.0.0.1           #server's host
 #export PORT=3011                #server's port
 APP_JS=server.js #main js

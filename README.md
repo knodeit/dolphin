@@ -3,16 +3,21 @@ Dolphin is fork of Mean.io and quality framework for fast development with [Mong
 
 ## Installation
 
-```bash
-  $ sudo npm install -g dolphinio
-```
+Before all you will need install grunt-cli and bower as global modules
 
-## Initialization The App
+    $sudo npm install -g grunt-cli
+    $sudo npm install -g bower
 
-```bash
-  $ dolphin init <app>
-  $ cd <app> && npm install
-```
+
+checkout repo by
+
+    $git clone git@bitbucket.org:weknodeit/dolphincms.git
+
+and then
+
+    $cd dolphincms
+    $npm install
+    $bower install
 
 ## Invoke node with Grunt
 We recommend using [Grunt](https://github.com/gruntjs/grunt-cli) to start the server:

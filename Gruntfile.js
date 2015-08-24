@@ -3,7 +3,7 @@
 var paths = {
     js: ['*.js', 'test/**/*.js', '!test/coverage/**', '!bower_components/**', 'packages/**/*.js', '!packages/**/node_modules/**'],
     css: ['!bower_components/**', 'packages/custom/**/public/assets/css/*.css'],
-    less: ['!bower_components/**', 'packages/custom/**/public/assets/css/*.less']
+    less: ['!bower_components/**', 'packages/custom/**/public/assets/css/*.less', 'packages/**/public/assets/css/*.less']
 };
 
 module.exports = function (grunt) {
@@ -91,12 +91,14 @@ module.exports = function (grunt) {
             dev: {
                 script: 'server.js',
                 options: {
+                    verbose: false,
                     args: [],
-                    ignore: ['node_modules/**'],
+                    ignore: ['node_modules/**','./packages/custom/**/node_modules/**'],
                     ext: 'js,css',
                     nodeArgs: ['--debug'],
-                    delayTime: 1,
-                    cwd: __dirname
+                    delay: 5000,
+                    cwd: __dirname,
+                    watch: ['./lib', './packages', './config']
                 }
             }
         },
@@ -112,11 +114,11 @@ module.exports = function (grunt) {
                 require: [
                     'server.js',
                     function () {
-                        require('dolphinio/lib/util').preload(__dirname + '/packages/**/server', 'model');
+                        //before
                     }
                 ]
             },
-            all: { src: ['packages/**/server/tests/**/*.js'] }
+            all: {src: ['packages/**/server/tests/**/*.js']}
         },
         env: {
             test: {
@@ -132,7 +134,7 @@ module.exports = function (grunt) {
     if (process.env.NODE_ENV !== 'production') {
         grunt.registerTask('default', ['clean', 'less:development', 'jshint', 'csslint', 'concurrent']);
     }
-    grunt.registerTask('init', ['clean', 'less:production', 'cssmin', 'uglify']);
 
+    grunt.registerTask('init', ['clean', 'less:production', 'cssmin', 'uglify']);
     grunt.registerTask('test', ['env:test', 'mochaTest:all']);
 };

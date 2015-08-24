@@ -3,14 +3,13 @@
 /*
  * Defining the Package
  */
-var dolphin = require('dolphinio'),
-    Module = dolphin.Module,
-    passport = require('passport');
-
+var dolphin = require('dolphinio');
+var Module = dolphin.Module;
 var Access = new Module('access');
+var passport = require('passport');
+var mongoose = require('mongoose');
 
 Access.register(function (database) {
-
     // Register auth dependency
     var auth = require('./server/config/authorization');
     require('./server/config/passport')(passport);
@@ -26,5 +25,17 @@ Access.register(function (database) {
 
     Access.passport = passport;
     Access.middleware = auth;
+
+    Access.aggregateAsset('css', 'access.css');
+
+    Access.registerMenu([
+        {
+            title: 'Access',
+            state: 'dashboard.access',
+            menu: mongoose.model('Menu').getMainDashboardMenu(),
+            entity: Access.acl.matrix.entities.index
+        }
+    ]);
+
     return Access;
 });

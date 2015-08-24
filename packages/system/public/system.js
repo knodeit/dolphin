@@ -1,9 +1,9 @@
 'use strict';
 
-angular.module('dolphin.system', ['dolphin-factory-interceptor']).config(function ($provide) {
+angular.module('dolphin.system').config(function ($provide, $locationProvider) {
     $provide.decorator('$state', function ($delegate, $stateParams) {
-        $delegate.forceReload = function () {
-            return $delegate.go($delegate.current, $stateParams, {
+        $delegate.forceReload = function (state) {
+            return $delegate.go(state ? state : $delegate.current, $stateParams, {
                 reload: true,
                 inherit: false,
                 notify: true
@@ -11,4 +11,14 @@ angular.module('dolphin.system', ['dolphin-factory-interceptor']).config(functio
         };
         return $delegate;
     });
+
+    $locationProvider.html5Mode(true);
+});
+
+angular.module('dolphin.system').run(function ($state) {
+    if (!window.dolphinInit) {
+        setTimeout(function () {
+            $state.go('front.setup');
+        }, 0);
+    }
 });

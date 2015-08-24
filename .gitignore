@@ -44,7 +44,8 @@ node_modules/
 # Bower Files
 # --------------------
 .bower-*/
-bower_components
+bower_components/*
+!bower_components/ng-ckeditor
 
 # --------------------
 # App Files
@@ -53,3 +54,8 @@ test/coverage/
 modules/public/
 modules/views/
 /public/build/
+.idea/
+/static/video/
+/static/blog/
+/uploads/*
+/packages/custom/blog/public/images/blog/

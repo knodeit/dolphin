@@ -1,10 +1,10 @@
 'use strict';
 
-var mongoose = require('mongoose'),
-    LocalStrategy = require('passport-local').Strategy,
-    LocalApiStrategy = require('../../../../vendor/passport-localapi').Strategy,
-    AccessToken = mongoose.model('AccessToken'),
-    User = mongoose.model('User');
+var mongoose = require('mongoose');
+var LocalStrategy = require('passport-local').Strategy;
+var LocalApiStrategy = require('../../../../lib/passport-localapi').Strategy;
+var AccessToken = mongoose.model('AccessToken');
+var User = mongoose.model('User');
 
 module.exports = function (passport) {
 
