@@ -1,0 +1,8 @@
+{
+    "name": "dashboard",
+    "version": "0.0.1",
+    "dependencies": {
+        "angular-breadcrumb": "^0.3.3",
+        "angular-growl-v2": "~0.7.2"
+    }
+}

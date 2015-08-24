@@ -1,0 +1,7 @@
+<ul class="nav nav-tabs nav-tabs-margin">
+    <li ng-repeat="tab in tabs" ng-class="{'active': tab.slug == global.profileMenuActive}">
+        <a ui-sref="{{tab.state}}">{{tab.title}}</a>
+    </li>
+</ul>
+
+<div data-ui-view></div>

@@ -1,0 +1,16 @@
+
+<div ng-controller="HeaderController">
+    <nav class="navbar navbar-default navbar-static-top">
+        <div class="container" ng-if="setupService.isInitialized()">
+
+            <!-- packages -->
+            <main-menu menu="menuConstants.mainFront" css="nav navbar-nav pull-left"></main-menu>
+
+            <!-- not auth -->
+            <main-menu items="notAuthMenu" ng-if="!global.authenticated" css="nav navbar-nav pull-right"></main-menu>
+
+            <!-- auth -->
+            <main-menu items="authMenu" ng-if="global.authenticated" css="nav navbar-nav pull-right"></main-menu>
+        </div>
+    </nav>
+</div>

@@ -1,0 +1,23 @@
+<div class="container">
+    <div growl></div>
+    <div class="row">
+        <div class="col-md-5">
+            <!--img src="/dashboard/assets/img/tipper-logo.png" class="dashboard-logo"-->
+        </div>
+        <div class="col-md-7 profile-margin">
+            <div class="btn-group pull-right" role="group">
+                <a ui-sref="dashboard.profile.account" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-user"></span> {{global.user.email}}</a>
+                <a ui-sref="front.index" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-home"></span> Home</a>
+                <a href="/logout" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-log-out"></span> Sign out</a>
+            </div>
+        </div>
+    </div>
+    <div data-ng-include="'dashboard/views/includes/menu.html'"></div>
+
+    <div ncy-breadcrumb></div>
+
+    <h1 class="page-header" ng-bind="pageH1"></h1>
+
+    <div data-ui-view></div>
+</div>
+<div data-ng-include="'dashboard/views/includes/footer.html'"></div>

@@ -1,0 +1,7 @@
+{
+    "name": "setup",
+    "version": "0.0.1",
+    "dependencies": {
+        "ng-file-upload": "~5.0.9"
+    }
+}

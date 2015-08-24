@@ -1,0 +1,18 @@
+<form role="form" data-ng-submit="submit()">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group" ng-class="{'has-error': errors.username}">
+                <label class="control-label">Username</label>
+                <input type="text" class="form-control" ng-model="form.username">
+
+                <div class="help-block" ng-show="errors.username">{{errors.username}}</div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <a ui-sref="dashboard.index" class="btn">Cancel</a>
+        </div>
+    </div>
+</form>

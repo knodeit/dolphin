@@ -1,0 +1,50 @@
+<div ng-repeat="module in rows" class="acl-panel">
+    <div class="page-header">{{module.name}}</div>
+    <div class="row">
+        <div class="col-md-4" ng-repeat="entity in module.entities">
+            <div class="panel panel-default">
+                <div class="panel-heading">{{entity.name}}</div>
+
+                <!-- Table -->
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th class="col-md-6">Role</th>
+                            <th class="col-md-2 text-center">Read</th>
+                            <th class="col-md-2 text-center">Create</th>
+                            <th class="col-md-2 text-center">Edit</th>
+                            <th class="col-md-2 text-center">Delete</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="row in entity.roles">
+                            <td>{{row.role}}</td>
+                            <td class="text-center">
+                                <label>
+                                    <input type="checkbox" ng-checked="row.permissions.indexOf('get')>=0" ng-click="togglePermission(row, 'get')">
+                                </label>
+                            </td>
+                            <td class="text-center">
+                                <label>
+                                    <input type="checkbox" ng-checked="row.permissions.indexOf('post')>=0" ng-click="togglePermission(row, 'post')">
+                                </label>
+                            </td>
+                            <td class="text-center">
+                                <label>
+                                    <input type="checkbox" ng-checked="row.permissions.indexOf('put')>=0" ng-click="togglePermission(row, 'put')">
+                                </label>
+                            </td>
+                            <td class="text-center">
+                                <label>
+                                    <input type="checkbox" ng-checked="row.permissions.indexOf('delete')>=0" ng-click="togglePermission(row, 'delete')">
+                                </label>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

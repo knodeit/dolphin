@@ -1,0 +1,21 @@
+<!-- Table -->
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+        <tr>
+            <th class="col-md-6">Package</th>
+            <th class="col-md-6 text-center">Active</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="row in rows">
+            <td>{{row.name}}</td>
+            <td class="text-center">
+                <label>
+                    <input type="checkbox" ng-model="row.active" ng-change="save(row)">
+                </label>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

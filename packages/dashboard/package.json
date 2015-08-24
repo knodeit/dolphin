@@ -1,0 +1,16 @@
+{
+    "name": "Dashboard",
+    "version": "0.0.1",
+    "description": "Some description of dashboard",
+    "author": {
+        "name": "dolphin scaffold"
+    },
+    "dolphin": "0.1.0",
+    "engines": {
+        "node": "0.10.x",
+        "npm": "1.4.x"
+    },
+    "dependencies": {
+    },
+    "license": "MIT"
+}

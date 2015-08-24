@@ -1,0 +1,18 @@
+<ul class="{{css}}">
+    <!-- single -->
+    <li ng-if="menu.submenu.length == 0" ng-repeat="menu in menus track by $index" ng-class="{'active': isActive(menu.state)}">
+        <a ng-if="menu.state" ui-sref="{{menu.state}}({{(menu.params)}})">{{menu.title}}</a>
+        <a ng-if="menu.url" href="{{menu.url}}">{{menu.title}}</a>
+    </li>
+
+    <!--multy-->
+    <li ng-if="menu.submenu.length > 0" ng-repeat="menu in menus" ng-class="{'active': isActive(menu.state)}" dropdown>
+        <a href="#" class="dropdown" dropdown-toggle>{{menu.title}} <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+            <li ng-repeat="item in menu.submenu">
+                <a ng-if="item.state" ui-sref='{{item.state}}({{(item.params)}})'>{{item.title}}</a>
+                <a ng-if="item.url" href="{{item.url}}">{{item.title}}</a>
+            </li>
+        </ul>
+    </li>
+</ul>
