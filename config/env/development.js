@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-    db: 'mongodb://localhost/dolphin-vadim-dev',
+    db: 'mongodb://localhost/dolphin-dev',
     debug: true,
     mongoose: {
         debug: false
