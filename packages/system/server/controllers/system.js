@@ -26,7 +26,7 @@ exports.render = function (req, res) {
                         req: req,
                         init: init,
                         settings: settings ? settings : {},
-                        indexPackage: 'pages',
+                        indexPackage: 'index',
                         constants: constants,
                         aclMatrix: aclMatrix
                     });

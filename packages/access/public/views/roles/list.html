@@ -1,0 +1,52 @@
+<div ui-view>
+    <nav class="navbar">
+        <div class="navbar-left">
+            <div class="btn-group btn-group-sm">
+                <button type="button" class="btn btn-primary navbar-btn btn-sm" ng-click="edit()">Create</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th class="col-md-2">Name</th>
+                <th class="col-md-2">Constant</th>
+                <th class="col-md-2">Modules</th>
+                <th class="col-md-2">Entities</th>
+                <th class="col-md-2">Registration role</th>
+                <th class="col-md-2">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr data-ng-repeat="(key, value) in rows">
+                <td>{{value.name}}</td>
+                <td>{{key}}</td>
+                <td>
+                    <ul>
+                        <li ng-repeat="module in value.modules">{{module}}</li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li ng-repeat="entity in value.entities">{{entity}}</li>
+                    </ul>
+                </td>
+                <td>
+                    <input type="radio" name="registrationRole" ng-checked="value.registrationRole" ng-click="toogleRegistrationRole(key, value)">
+                </td>
+                <td>
+                    <button type="button" class="btn btn-default btn-xs btn-func btn-func-red" ng-click="delete(value._id)" ng-disabled="!value.canbedeleted">
+                        <span class="glyphicon glyphicon-remove"></span> Delete
+                    </button>
+
+                    <button type="button" class="btn btn-default btn-xs btn-func btn-func-blue" ng-click="edit(value._id)" ng-disabled="!value.canbedeleted">
+                        <span class="glyphicon glyphicon-pencil"></span> Edit
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

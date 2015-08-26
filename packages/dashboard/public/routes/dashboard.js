@@ -33,7 +33,7 @@ angular.module('dolphin.dashboard').config(['$stateProvider', function ($statePr
             }
         })
         .state('dashboard.index', {
-            url: '/',
+            url: '',
             templateUrl: '/dashboard/views/dashboard.html',
             controller: 'DashboardController',
             ncyBreadcrumb: {

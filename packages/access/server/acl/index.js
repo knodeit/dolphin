@@ -11,6 +11,7 @@ module.exports = function () {
             return {
                 index: this.package + '_index',
                 acl: this.package + '_acl',
+                roles: this.package + '_roles',
                 packages: this.package + '_packages'
             };
         },
@@ -19,9 +20,10 @@ module.exports = function () {
                 {
                     roles: ['admin'],
                     allows: [
-                        {entity: this.entities.index, permissions: ['get']},
-                        {entity: this.entities.acl, permissions: ['get', 'put']},
-                        {entity: this.entities.packages, permissions: ['get', 'put']}
+                        {entity: this.entities.index, permissions: ['get'], disabled: ['get', 'post', 'put', 'delete']},
+                        {entity: this.entities.acl, permissions: ['get', 'put'], disabled: ['get', 'post', 'put', 'delete']},
+                        {entity: this.entities.roles, permissions: ['get', 'post', 'put', 'delete'], disabled: ['get', 'post', 'put', 'delete']},
+                        {entity: this.entities.packages, permissions: ['get', 'put'], disabled: ['get', 'post', 'put', 'delete']}
                     ]
                 }
             ];
@@ -38,6 +40,10 @@ module.exports = function () {
                         {
                             key: this.entities.acl,
                             value: 'Acl page'
+                        },
+                        {
+                            key: this.entities.roles,
+                            value: 'Roles page'
                         },
                         {
                             key: this.entities.packages,

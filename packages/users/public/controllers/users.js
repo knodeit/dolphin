@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('dolphin.users').controller('LoginCtrl', ['$scope', '$rootScope', '$http', '$state', 'Global', function ($scope, $rootScope, $http, $state, Global) {
+angular.module('dolphin.users').controller('LoginCtrl', ['$scope', '$rootScope', '$http', '$state', 'Global', 'AccessAclService', function ($scope, $rootScope, $http, $state, Global, AccessAclService) {
     $scope.user = {};
     $scope.errors = {};
 
@@ -12,7 +12,7 @@ angular.module('dolphin.users').controller('LoginCtrl', ['$scope', '$rootScope',
         }).success(function (user) {
             Global.authenticated = !!user;
             Global.user = user;
-            Global.attachRoles(user);
+            AccessAclService.attachRoles(user);
             $state.go('dashboard.index');
         }).error(function (error, status) {
             for (var i in error) {

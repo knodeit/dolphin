@@ -13,10 +13,18 @@ angular.module('dolphin.dashboard').config(['growlProvider', '$breadcrumbProvide
     });
 }]);
 
-angular.module('dolphin.dashboard').run(['$location', '$rootScope', '$interpolate', function ($location, $rootScope, $interpolate) {
+angular.module('dolphin.dashboard').run(['$location', '$rootScope', '$interpolate', '$state', function ($location, $rootScope, $interpolate, $state) {
     $rootScope.$on('$stateChangeSuccess', function (event, current, previous) {
         if (current.pageSettings) {
             $rootScope.pageH1 = current.pageSettings.h1;
+        }
+    });
+
+    //Acl
+    $rootScope.$on('$stateChangeError', function (current, previous, rejection, fromState, fromParams, error) {
+        if (error == '403') {
+            console.log('Access denied 403');
+            $state.go('front.index');
         }
     });
 }]);

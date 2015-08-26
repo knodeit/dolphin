@@ -1,12 +1,16 @@
 'use strict';
 
-angular.module('dolphin.access').controller('AccessController', ['$scope', 'Global', '$state',
-    function ($scope, Global, $state) {
+angular.module('dolphin.access').controller('AccessController', ['$scope', 'Global', 'MenuService', '$state',
+    function ($scope, Global, MenuService, $state) {
         $scope.global = Global;
         $scope.tabs = [
             {
                 title: 'Access control list',
-                state: 'dashboard.access.acl',
+                state: 'dashboard.access.acl'
+            },
+            {
+                title: 'Roles',
+                state: 'dashboard.access.roles'
             },
             {
                 title: 'Access packages',
@@ -14,11 +18,7 @@ angular.module('dolphin.access').controller('AccessController', ['$scope', 'Glob
             }
         ];
 
-        $scope.isActive = function (state) {
-            if (state == $state.current.name) {
-                return true;
-            }
-        };
+        $scope.isActive = MenuService.highlight;
 
         if ($state.current.name == 'dashboard.access') {
             $state.go('dashboard.access.acl');
@@ -44,17 +44,24 @@ angular.module('dolphin.access').controller('AccessController', ['$scope', 'Glob
             });
         };
     }
-]).controller('AccessPackagesController', ['$scope', 'Global', 'AccessAclService', 'Flash', 'rows',
-    function ($scope, Global, AccessAclService, Flash, rows) {
+]).controller('AccessPackagesController', ['$scope', 'Global', 'AccessAclService', 'Flash', 'rows', '$state',
+    function ($scope, Global, AccessAclService, Flash, rows, $state) {
         $scope.global = Global;
         $scope.rows = rows;
 
         $scope.save = function (row) {
             AccessAclService.savePackage(row.name, row.active).then(function () {
-                Flash.showInfo('The changes have been saved');
+                Flash.info('The changes have been saved');
+                $state.forceReload();
             }).catch(function (err) {
                 Flash.showError(err);
             });
         };
     }
+]).controller('AccessAclRoleFormController', ['$scope', 'Global',
+    function ($scope, Global) {
+        $scope.global = Global;
+
+    }
 ]);
+

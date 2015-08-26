@@ -19,9 +19,9 @@ module.exports = function () {
                 {
                     roles: ['authenticated'],
                     allows: [
-                        {entity: this.entities.index, permissions: ['get']},
-                        {entity: this.entities.profile, permissions: ['get', 'put']},
-                        {entity: this.entities.password, permissions: ['get', 'put']}
+                        {entity: this.entities.index, permissions: ['get'], disabled: ['get', 'post', 'put', 'delete']},
+                        {entity: this.entities.profile, permissions: ['get', 'put'], disabled: ['get', 'put', 'post', 'delete']},
+                        {entity: this.entities.password, permissions: ['get', 'put'], disabled: ['get', 'put', 'post', 'delete']}
                     ]
                 }
             ];

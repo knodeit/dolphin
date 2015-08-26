@@ -11,6 +11,7 @@ angular.module('dolphin.access').config(['$stateProvider',
                     skip: true
                 }
             })
+            //acl
             .state('dashboard.access.acl', {
                 url: '/acl',
                 templateUrl: 'access/views/acl.html',
@@ -27,6 +28,44 @@ angular.module('dolphin.access').config(['$stateProvider',
                     }
                 }
             })
+            //acl form
+            .state('dashboard.access.roles', {
+                url: '/roles',
+                templateUrl: 'access/views/roles/list.html',
+                controller: 'AccessRolesController',
+                ncyBreadcrumb: {
+                    label: 'Roles'
+                },
+                pageSettings: {
+                    h1: 'Roles'
+                },
+                resolve: {
+                    canRead: function ($q, AccessAclService) {
+                        if (AccessAclService.canRead('roles')) {
+                            return true;
+                        } else {
+                            return $q.reject('403');
+                        }
+                    },
+                    rows: function (AccessRolesService) {
+                        return AccessRolesService.getAll();
+                    }
+                }
+            })
+            .state('dashboard.access.roles.form', {
+                url: '/form/:_id',
+                templateUrl: 'access/views/roles/form.html',
+                controller: 'AccessRoleFormController',
+                ncyBreadcrumb: {
+                    label: '{{label}}'
+                },
+                resolve: {
+                    role: function (AccessRolesService, $stateParams) {
+                        return AccessRolesService.getRole($stateParams._id);
+                    }
+                }
+            })
+            //packages
             .state('dashboard.access.packages', {
                 url: '/packages',
                 templateUrl: 'access/views/packages.html',

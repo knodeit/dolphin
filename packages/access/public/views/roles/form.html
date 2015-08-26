@@ -1,0 +1,67 @@
+<form ng-submit="submit()" novalidate>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group" ng-class="{'has-error': errors.name}">
+                <label class="control-label">Name</label>
+                <input type="text" class="form-control" ng-model="form.role.name">
+
+                <div class="help-block" ng-show="errors.name">{{errors.name}}</div>
+            </div>
+
+            <div class="form-group" ng-class="{'has-error': errors.role}">
+                <label class="control-label">Constant</label>
+                <input type="text" class="form-control" ng-model="form.role.role" ng-readonly="form._id">
+
+                <div class="help-block" ng-show="errors.role">{{errors.role}}</div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <a ui-sref="^" class="btn">Cancel</a>
+        </div>
+
+        <div class="col-md-9">
+            <div class="panel panel-default" ng-repeat="module in form.modules">
+                <div class="panel-heading">{{module.name}}</div>
+                <!-- Table -->
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th class="col-md-2 text-center">Entity</th>
+                            <th class="col-md-2 text-center">Read</th>
+                            <th class="col-md-2 text-center">Create</th>
+                            <th class="col-md-2 text-center">Edit</th>
+                            <th class="col-md-2 text-center">Delete</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="entity in module.entities">
+                            <td>{{entity.name}}</td>
+                            <td class="text-center">
+                                <label>
+                                    <input type="checkbox" ng-checked="entity.permissions.indexOf('get')>=0" ng-click="togglePermission(entity, 'get')">
+                                </label>
+                            </td>
+                            <td class="text-center">
+                                <label>
+                                    <input type="checkbox" ng-checked="entity.permissions.indexOf('post')>=0" ng-click="togglePermission(entity, 'post')">
+                                </label>
+                            </td>
+                            <td class="text-center">
+                                <label>
+                                    <input type="checkbox" ng-checked="entity.permissions.indexOf('put')>=0" ng-click="togglePermission(entity, 'put')">
+                                </label>
+                            </td>
+                            <td class="text-center">
+                                <label>
+                                    <input type="checkbox" ng-checked="entity.permissions.indexOf('delete')>=0" ng-click="togglePermission(entity, 'delete')">
+                                </label>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

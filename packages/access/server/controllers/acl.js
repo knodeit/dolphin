@@ -6,43 +6,47 @@ var dolphin = require('dolphinio');
 
 var mongoose = require('mongoose');
 var Acl = mongoose.model('Acl');
+var AclRole = mongoose.model('AclRole');
 var AclLabel = mongoose.model('AclLabel');
 
 exports.getAclAll = function (req, res, next) {
-    AclLabel.find({}).exec(function (err, labels) {
-        Acl.find({}).sort({module: 1, entity: 1, role: 1}).exec(function (err, acls) {
-            var access = {};
-            for (var i in acls) {
-                var _id = acls[i]._id;
-                var module = acls[i].module;
-                var entity = acls[i].entity;
-                var role = acls[i].role;
-                var permissions = acls[i].permissions;
+    AclRole.find({'auditing.deleted': false}).exec(function (err, roles) {
+        var objRoles = {};
+        for (var i in roles) {
+            objRoles[roles[i].role] = roles[i].name;
+        }
+        AclLabel.find({'auditing.deleted': false}).exec(function (err, labels) {
+            Acl.find({'auditing.deleted': false}).sort({module: 1, entity: 1, role: 1}).exec(function (err, acls) {
+                var access = {};
+                for (var i in acls) {
+                    var _id = acls[i]._id;
+                    var module = acls[i].module;
+                    var entity = acls[i].entity;
+                    var role = acls[i].role;
+                    var permissions = acls[i].permissions;
+                    var disabled = acls[i].disabled;
 
-                //hide access
-                if (module == 'access') {
-                    continue;
+                    if (!access[module]) {
+                        access[module] = {};
+                        access[module].name = getModuleName(module, labels);
+                        access[module].entities = {};
+                    }
+
+                    if (!access[module].entities[entity]) {
+                        access[module].entities[entity] = {};
+                        access[module].entities[entity].name = getEntityName(module, entity, labels);
+                        access[module].entities[entity].roles = [];
+                    }
+
+                    access[module].entities[entity].roles.push({
+                        _id: _id,
+                        role: objRoles[role] ? objRoles[role] : 'Not set',
+                        permissions: permissions,
+                        disabled: disabled
+                    });
                 }
-
-                if (!access[module]) {
-                    access[module] = {};
-                    access[module].name = getModuleName(module, labels);
-                    access[module].entities = {};
-                }
-
-                if (!access[module].entities[entity]) {
-                    access[module].entities[entity] = {};
-                    access[module].entities[entity].name = getEntityName(module, entity, labels);
-                    access[module].entities[entity].roles = [];
-                }
-
-                access[module].entities[entity].roles.push({
-                    _id: _id,
-                    role: role,
-                    permissions: permissions
-                });
-            }
-            res.send(access);
+                res.send(access);
+            });
         });
     });
 };

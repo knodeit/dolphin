@@ -2,7 +2,7 @@
     <!-- single -->
     <li ng-if="menu.submenu.length == 0" ng-repeat="menu in menus track by $index" ng-class="{'active': isActive(menu.state)}">
         <a ng-if="menu.state" ui-sref="{{menu.state}}({{(menu.params)}})">{{menu.title}}</a>
-        <a ng-if="menu.url" href="{{menu.url}}">{{menu.title}}</a>
+        <a ng-if="menu.url" href="{{menu.url}}" target="_self">{{menu.title}}</a>
     </li>
 
     <!--multy-->

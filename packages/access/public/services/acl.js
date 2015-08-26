@@ -1,8 +1,20 @@
 'use strict';
 
-angular.module('dolphin.access').factory('AccessAclService', ['$q', '$http',
-    function ($q, $http) {
+angular.module('dolphin.access').factory('AccessAclService', ['$q', '$http', 'AclService',
+    function ($q, $http, AclService) {
         return {
+            canRead: function (action) {
+                return AclService.can('access_' + action + '_view');
+            },
+            canCreate: function (action) {
+                return AclService.can('access_' + action + '_create');
+            },
+            canEdit: function (action) {
+                return AclService.can('access_' + action + '_edit');
+            },
+            canDelete: function (action) {
+                return AclService.can('access_' + action + '_delete');
+            },
             getAclAll: function () {
                 var deferred = $q.defer();
                 $http.get('/access/dashboard/acl').success(function (res) {
@@ -38,6 +50,24 @@ angular.module('dolphin.access').factory('AccessAclService', ['$q', '$http',
                     deferred.reject(err);
                 });
                 return deferred.promise;
+            },
+            attachRoles: function (user) {
+                if (!user) {
+                    user = window.user;
+                }
+                if (!user || !user.roles) {
+                    return;
+                }
+
+                var userRoles = user.roles;
+                if (!angular.isArray(userRoles)) {
+                    userRoles = [userRoles];
+                }
+                userRoles.forEach(function (role) {
+                    AclService.attachRole(role);
+                });
+                //by default
+                AclService.attachRole('authenticated');
             }
         };
     }

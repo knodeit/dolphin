@@ -33,24 +33,7 @@ angular.module('dolphin.menu').directive('mainMenu', function (Global, SetupServ
                 });
             }
 
-            $scope.isActive = function (state) {
-                if (state == $state.current.name) {
-                    return true;
-                }
-
-                var parts = $state.current.name.split('.');
-                var isFound = false;
-                while (parts.length) {
-                    parts.pop();
-                    if (parts.join('.') == state) {
-                        isFound = true;
-                        break;
-                    }
-                }
-
-                //if extends
-                return isFound;
-            };
+            $scope.isActive = MenuService.highlight;
         },
         link: function ($scope, element, attrs) {
 
