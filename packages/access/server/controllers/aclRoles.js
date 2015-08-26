@@ -10,7 +10,7 @@ var AclRole = mongoose.model('AclRole');
 var AclLabel = mongoose.model('AclLabel');
 
 exports.getAll = function (req, res, next) {
-    AclRole.find({'auditing.deleted': false}).exec(function (err, roles) {
+    AclRole.find({'auditing.deleted': false}).sort({role: 1, module: 1, entity: 1}).exec(function (err, roles) {
         var access = {};
         for (var i in roles) {
             access[roles[i].role] = {};
