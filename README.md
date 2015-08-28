@@ -7,17 +7,14 @@ Before all you will need install grunt-cli and bower as global modules
 
     $sudo npm install -g grunt-cli
     $sudo npm install -g bower
+    $sudo npm install -g dolphinio
 
-
-checkout repo by
-
-    $git clone git@bitbucket.org:weknodeit/dolphincms.git
 
 and then
 
-    $cd dolphincms
+    $dolphin install foo
+    $cd foo
     $npm install
-    $bower install
 
 ## Invoke node with Grunt
 We recommend using [Grunt](https://github.com/gruntjs/grunt-cli) to start the server:
@@ -37,7 +34,7 @@ Alternatively, when not using `grunt` (and for production environments) you can 
 
 Then, open a browser and go to:
 ```bash
-  http://localhost:3000
+  http://localhost:3066
 ```
 
 ## Create a package
@@ -48,27 +45,3 @@ All of the remaining of the commands must be run from the root folder of your Do
   $ dolphin install <module>
   $ dolphin uninstall <module>
 ```
-
-## Files structure
-The file structure is similar to that of the dolphin project itself
-
-**Server**
-Packages are registered in the **app.js** 
-
-	Server
-	    --- config        # Configuration files
-	    --- controllers   # Server side logic goes here
-	    --- models        # Database Schema Models
-	    --- routes        # Rest api endpoints for routing
-	    --- views         # Swig based html rendering
-
-**Client**
-
-All of the Client side code resides in the `/public` directory.
-
-    public            
-    --- assets        # Javascript/Css/Images (not aggregated)
-    --- controllers   # Angular Controllers
-    --- config        # Contains routing files
-    --- services      # Angular Services (also directive and filter folders)
-    --- views         # Angular views
