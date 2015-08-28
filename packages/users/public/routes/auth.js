@@ -2,33 +2,55 @@
 
 //Setting up route
 angular.module('dolphin.users').config(['$stateProvider', function ($stateProvider) {
-    // Check if the user is not connected
-    var checkLoggedOut = function ($q, $http, $state) {
-        // Initialize a new promise
-        var deferred = $q.defer();
 
-        // Make an AJAX call to check if the user is logged in
-        $http.get('/loggedin').success(function (user) {
-            // Authenticated
-            if (user) {
+    function checkAccess(UsersService, $q, $state) {
+        var deferred = $q.defer();
+        UsersService.isLoginIn().then(function (res) {
+            if (res) {
                 deferred.reject();
-                $state.go('front.index');
+                return $state.go('front.login');
             }
-            // Not Authenticated
-            else {
-                deferred.resolve();
-            }
+            return deferred.resolve();
         });
         return deferred.promise;
-    };
+    }
 
-    // states for my app
     $stateProvider
-        .state('front.login', {
+        .state('front.users', {
+            abstract: true,
+            url: '/auth',
+            template: '<ui-view/>'
+        })
+        .state('front.users.login', {
             url: '/login',
             templateUrl: 'users/views/login.html',
+            controller: 'UsersLoginCtrl',
             resolve: {
-                loggedin: checkLoggedOut
+                loggedin: checkAccess
+            }
+        })
+        .state('front.users.signup', {
+            url: '/signup',
+            templateUrl: 'users/views/register.html',
+            controller: 'UsersRegisterCtrl',
+            resolve: {
+                loggedin: checkAccess
+            }
+        })
+        .state('front.users.forgot-password', {
+            url: '/forgot-password',
+            templateUrl: 'users/views/forgot-password.html',
+            controller: 'UsersForgotPasswordCtrl',
+            resolve: {
+                loggedin: checkAccess
+            }
+        })
+        .state('front.users.reset-password', {
+            url: '/reset-password/:tokenId',
+            templateUrl: 'users/views/reset-password.html',
+            controller: 'UsersResetPasswordCtrl',
+            resolve: {
+                loggedin: checkAccess
             }
         });
 }]);

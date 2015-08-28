@@ -12,7 +12,13 @@ angular.module('dolphin.index').controller('HeaderController', ['$scope', 'Globa
         $scope.notAuthMenu = [
             {
                 title: 'Sign in',
-                state: 'front.login',
+                state: 'front.users.login',
+                submenu: [],
+                roles:[]
+            },
+            {
+                title: 'Sign up',
+                state: 'front.users.signup',
                 submenu: [],
                 roles:[]
             }

@@ -11,6 +11,13 @@
                 <div class="help-block" ng-show="errors.title">{{errors.title}}</div>
             </div>
 
+            <div class="form-group" ng-class="{'has-error': errors.username}">
+                <label class="control-label">Username</label>
+                <input type="text" class="form-control" ng-model="form.username">
+
+                <div class="help-block" ng-show="errors.username">{{errors.username}}</div>
+            </div>
+
             <div class="form-group" ng-class="{'has-error': errors.email}">
                 <label class="control-label">Email</label>
                 <input type="email" class="form-control" ng-model="form.email">

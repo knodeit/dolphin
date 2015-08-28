@@ -1,0 +1,61 @@
+<!--h1 class="page-header"><span ng-hide="user.id">Create a user</span><span ng-show="user.id">Update a user</span></h1-->
+
+<form role="form" data-ng-submit="submit()">
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group" ng-class="{'has-error': errors.username}">
+                <label class="control-label">Username <span class="required-star">*</span></label>
+                <input type="text" class="form-control" ng-model="user.username">
+
+                <div class="help-block" ng-show="errors.username">{{errors.username}}</div>
+            </div>
+
+            <div class="form-group" ng-class="{'has-error': errors.email}">
+                <label class="control-label">Email <span class="required-star">*</span></label>
+                <input type="text" class="form-control" ng-model="user.email">
+
+                <div class="help-block" ng-show="errors.email">{{errors.email}}</div>
+            </div>
+
+            <div class="form-group" ng-class="{'has-error': errors.roles}">
+                <label class="control-label">Roles <span class="required-star">*</span></label>
+
+                <div class="checkbox" ng-repeat="role in roles">
+                    <label>
+                        <input type="checkbox" value="{{role.role}}" ng-checked="user.roles.indexOf(role.role) > -1" ng-click="toggleRole(role.role)"> {{role.name}}
+                    </label>
+                </div>
+                <div class="help-block" ng-show="errors.roles">{{errors.roles}}</div>
+            </div>
+
+            <div class="form-group" ng-class="{'has-error': errors.password}">
+                <label class="control-label">Password <span class="required-star" ng-if="!user._id">*</span></label>
+                <input type="password" class="form-control" ng-model="user.password">
+
+                <div class="help-block" ng-show="errors.password">{{errors.password}}</div>
+            </div>
+
+            <div class="form-group" ng-class="{'has-error': errors.confirmPassword}">
+                <label class="control-label">Confirm password <span class="required-star" ng-if="!user._id">*</span></label>
+                <input type="password" class="form-control" ng-model="user.confirmPassword">
+
+                <div class="help-block" ng-show="errors.confirmPassword">{{errors.confirmPassword}}</div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Blocked</label>
+
+                <div><input type="checkbox" ng-model="user.blocked"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <a ui-sref="^" class="btn">Cancel</a>
+        </div>
+    </div>
+
+</form>

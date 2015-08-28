@@ -14,7 +14,6 @@ var methodOverride = require('method-override');
 var assetmanager = require('assetmanager');
 var session = require('express-session');
 var mongoStore = require('connect-mongo')(session);
-var helpers = require('view-helpers');
 var flash = require('connect-flash');
 var config = dolphin.loadConfig();
 var multer = require('multer');

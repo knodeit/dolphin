@@ -49,6 +49,7 @@ var MenuSchema = new Schema({
         default: 0
     }
 });
+MenuSchema.plugin(require('../../../../lib/mongo_plugins/auditing'));
 
 /**
  * Validations

@@ -1,10 +1,11 @@
 'use strict';
 
-/**
- * Module dependencies.
- */
-var mongoose = require('mongoose'),
-    Schema = mongoose.Schema;
+var dolphin = require('dolphinio');
+var Q = require('q');
+var uuid = require('node-uuid');
+
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
 function validateMax(value, max) {
     if (!value || value.length < max) {
@@ -19,15 +20,9 @@ var AccessTokenSchema = new Schema({
     name: {type: String},
     token: {type: String},
     default: {type: Boolean, default: false},
-    blocked: {type: Boolean, default: false},
-    auditing: {
-        createdAt: {type: Date, default: Date.now},
-        createdBy: {type: Schema.ObjectId, ref: 'User'},
-        lastUpdateAt: {type: Date, default: Date.now},
-        lastUpdateBy: {type: Schema.ObjectId, ref: 'User'},
-        deleted: {type: Boolean, default: false}
-    }
+    blocked: {type: Boolean, default: false}
 });
+AccessTokenSchema.plugin(require('../../../../lib/mongo_plugins/auditing'));
 
 //validates
 AccessTokenSchema.path('name').validate(function (value) {
@@ -70,5 +65,20 @@ AccessTokenSchema.path('token').validate(function (value, callback) {
         }
     });
 }, 'Token already exist');
+
+AccessTokenSchema.statics.createAccess = function (params) {
+    var deferred = Q.defer();
+    var MongoValidationError = dolphin.load('errors').getMongoalidationError();
+    var AccessToken = mongoose.model('AccessToken');
+    params.token = uuid.v4();
+    var row = new AccessToken(params);
+    row.save(function (err, row) {
+        if (err) {
+            return deferred.reject(new MongoValidationError(err));
+        }
+        deferred.resolve(row);
+    });
+    return deferred.promise;
+};
 
 mongoose.model('AccessToken', AccessTokenSchema);

@@ -33,6 +33,9 @@ exports.update = function (req, res, next) {
         if (!req.body.email) {
             row.invalidate('email', 'Email cannot be blank');
         }
+        if (!req.body.username) {
+            row.invalidate('username', 'Username cannot be blank');
+        }
         if (!req.body.password) {
             row.invalidate('password', 'Password cannot be blank');
         }
@@ -50,7 +53,7 @@ exports.update = function (req, res, next) {
                 return next(new MongoValidationError(err));
             }
 
-            User.createRootUser(req.body.email, req.body.password, function (err) {
+            User.createRootUser(req.body.username, req.body.email, req.body.password, function (err) {
                 if (err) {
                     row.remove();
                     return next(new MongoValidationError(err));

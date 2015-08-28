@@ -1,6 +1,6 @@
 {
     "name": "setup",
-    "version": "0.0.1",
+    "version": "1.0.0",
     "description": "Some description of setup",
     "author": {
         "name": "dolphin scaffold"

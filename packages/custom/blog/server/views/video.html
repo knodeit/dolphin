@@ -1,0 +1,48 @@
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="/bower_components/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="/bower_components/jwplayer-mirror/jwplayer.js"></script>
+    <script>jwplayer.key = "PKZlVnS85jaLAxcZMmGt1rhsQlIK5Gb0/OwgxsP5PhQ=";</script>
+    <title>{{media.name}}</title>
+    <style type="text/css">
+        html, body {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+<div id="player"></div>
+<script type="text/javascript">
+    var media = {{media | json | safe}};
+    var width = {{width}};
+    var height = {{height}};
+    var sources = [];
+    var autostart = {{autostart}};
+    var repeat = {{repeat}};
+    var userMediaId = '{{userMediaId}}';
+
+    sources.push({
+        file: media.fileUrl
+    });
+    jwplayer("player").setup({
+        sources: sources,
+        width: width,
+        height: height,
+        autostart: autostart,
+        repeat: repeat,
+        events: {
+            onComplete: function () {
+                if (parent.stopVideo) {
+                    parent.stopVideo();
+                }
+            },
+            onReady: function () {
+                //$.post("/media/view", {userMediaId: userMediaId});
+            }
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,384 @@
+
+
+
+//This holds everything, but the background color and header (AKA everything in the large white square)
+.blog-container {
+    font-family: 'Lato', sans-serif;
+    color:#444;
+    box-shadow: 0 2px 6px rgba(100, 100, 100, 0.3);
+    max-width:1150px;
+    margin-top: 40px;
+    background-color:white;
+    padding:40px;
+}
+//This is the background color displayed behind "large white square" with all your content
+/*body {
+    background-color: #e1e1e1;
+}*/
+//This it the title of the blog displayed at the top left
+.blog-title {
+    font-size: 30px;
+    font-weight: bolder;
+}
+
+//this is styling to be applied to every instance of a post-title
+.post-title {
+    font-weight: 500;
+    margin-top: 0;
+    padding-bottom: 20px;
+}
+//whenever the post refrences it's publish date, this is the styling used
+.post-publish-date {
+    font-size: 80%;
+    font-weight: normal;
+    color:#444;
+}
+//what holds all content of the post on the home page
+.blog-post-holder-home {
+    margin:15px 0 15px 0;
+    padding:45px 0 45px 0;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+}
+
+.blog-plus-navbar {
+    margin:15px 0 15px 0;
+    padding:45px 0 45px 0;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+}
+
+.blog-content-full {
+    max-width: 100%;
+    max-height: none;
+    color:#444;
+}
+
+//Stuff in navbars
+.blog-home-nav-bar-bottom {
+    padding:0 0 50px 30px;
+}
+
+
+.blog-nav-label {
+    font-size: 80%;
+    font-weight: bolder;
+    padding-bottom: 30px;
+    padding-top: 40px;
+}
+//Title of blog shown in top right of side navbar
+.blog-title-in-nav {
+    padding-top: 0;
+}
+//description shown below the title on the navbar
+.blog-descirption {
+
+}
+
+//styles applied to lists in navbar
+ul.recent-blog-posts {
+    padding:0;
+    list-style-type: none;
+}
+//The combined element of post title and date in navbar
+.recent-post-link-and-date {
+    font-size: 95%;
+    padding-bottom:10px;
+}
+
+//LINKS
+.continue-reading
+{
+    color: #337ab7;
+    text-decoration: underline;
+}
+//all links in the navbar
+.navbar-link
+{
+    color:#444;
+    text-decoration: underline;
+}
+//whenever the title of a post, outside the navbar, is a link
+.post-link {
+    color: #337ab7;
+    text-decoration: none;
+}
+//the links of each category at the bottom of a post page
+.category-link {
+    color: #B5B5B5;
+    text-decoration: underline;
+}
+
+
+//Info around posts
+.category-at-bottom-of-post {
+    padding-top: 30px;
+    font-size: 90%;
+    color: #B5B5B5;
+}
+//whenever release date of post is shown
+.release-date-of-post
+{
+    font-size: 85%;
+    color:#999;
+    font-weight: bold;
+}
+
+
+//When only one image on page
+.post-image-main{
+    max-width: 100%;
+}
+//When many images on page
+.post-image-list{
+    max-width: 100%;
+}
+
+//Top of page when using some kind of archive
+.archive-label {
+    font-size: 80%;
+    font-weight: bolder;
+    padding-bottom: 20px;
+}
+
+//when many posts on the same page, one of these holds each post
+.archive-post {
+    padding-top: 50px;
+    padding-bottom: 15px;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+}
+
+//TODO
+.blog-author-bio {
+    font-size: 90%;
+}
+
+//This holds the search bar and button
+.search-container {
+    margin-top:30px;
+}
+//styling for the button with "search" on it
+.search-button {
+    border: 1px solid #cccccc;
+    background-color: #EAEAEA;
+    padding:9px;
+    color:#8B8B8B;
+    border-radius: 3px;
+    font-size:89%;
+    box-shadow: 0 1px 2px rgba(64, 64, 64, 0.1);
+}
+
+//what contains the result of search, or section of archive (Wall posts from a certain month for example)
+.archive-container {
+    padding-right: 50px;
+}
+
+//Padding applied to all images
+img {
+    padding-bottom: 30px;
+}
+
+.new-comment-submitter {
+    max-width: 400px;
+    padding-left: 30px;
+    margin-bottom: 30px;
+    border: 1px solid #efefef;
+    margin-top: 20px;
+}
+
+.single-comment {
+    max-width: 500px;
+    padding-left: 30px;
+    padding-bottom: 30px;
+    border-left: 1px solid #efefef;
+}
+.comment-heading {
+    font-size: 30px;
+    color: #444444;
+}
+
+.comment-date-submitted {
+    font-size: 16px;
+    color:#bbbbbb;
+    display: inline;
+    margin-left: 30px;
+}
+
+.comment-content {
+    padding-top: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.cancel-reply-button
+{
+    text-shadow: none;
+    box-shadow: none;
+    border:none;
+    background-color: transparent;
+    background-image: none;
+    color:#444444;
+    font-weight: 200;
+}
+
+.reply-to-comment-button {
+
+    border:  1px solid #333333;
+    border: 1px solid rgba(51, 51, 51, 0.14);
+    color: #333333;
+    color: rgba(51, 51, 51, 0.7);
+    text-transform: uppercase;
+    background-color: transparent;
+}
+
+.post-comment-button {
+
+    border:  1px solid #333333;
+    border: 1px solid rgba(51, 51, 51, 0.14);
+    color: #333333;
+    color: rgba(51, 51, 51, 0.7);
+    text-transform: uppercase;
+    background-color: transparent;
+}
+
+
+
+//BELOW IS FOR EDITOR////////////////////////////////////////////////////BELOW IS FOR EDITOR//////////////////////////
+body {
+    font-family: 'Lato', sans-serif;
+}
+
+.page-content iframe {
+    border: 0;
+    padding: 0;
+    width: 340px;
+    height: 200px;
+}
+
+.post-body {
+    padding: 0 50px 20px 50px;
+}
+
+.post-options {
+    padding: 0 0 20px 50px;
+}
+
+/*
+.form-horizontal .form-group {
+    margin-right: 0;
+    margin-left: 0;
+}
+
+.form-group {
+    margin-bottom: 0;
+}
+*/
+
+@media (max-width: 990px) {
+    .post-options {
+        padding: 0 50px 20px 50px;
+    }
+
+}
+.row {
+    .post-body {
+        .submit-post {
+            padding-top: 15px;
+            float: right;
+        }
+
+        .title-of-post {
+            padding-bottom: 10px;
+        }
+    }
+
+}
+
+.cke_editable {
+    padding:15px !important;
+}
+/*
+.form-group {
+    padding: 5px;
+    .lefty {
+        float: left;
+    }
+
+    .checkbox {
+        float: left;
+        margin-left: 10px;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+    .control-label {
+
+    }
+}
+*/
+.blog-content-preview {
+    max-width: 90%;
+    max-height: 200px;
+    overflow: hidden;
+}
+.single-post {
+    border:1px solid white;
+    max-width: 700px;
+    padding-bottom: 30px;
+    margin-bottom: 30px;
+    background-color: white;
+}
+
+.blog-list-body {
+    padding: 20px;
+    color:#95909E;
+
+    h2 {
+        padding-top: 0;
+        color: white;
+        font-weight: bolder;
+        font-size: 64px;
+        margin-top:0;
+    }
+    h1 {
+        color:#999999;
+        font-weight: bold;
+    }
+
+
+    .left {
+        text-align: left;
+    }
+
+    .center {
+        text-align: center;
+    }
+
+    p {
+        color: #95909E;
+
+    }
+
+    .tiny-blog-title {
+        font-size: 16px;
+        color:#222222;
+        font-weight: bold;
+    }
+}
+
+.blog-edit-buttons {
+    padding-top:20px;
+}
+
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+
+.nav .dropdown-menu li:hover .sub-menu {
+    visibility: visible;
+}
+
+.nav .dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.brand-logo-menu{
+    height: 25px;
+}

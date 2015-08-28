@@ -3,8 +3,11 @@
 /**
  * Module dependencies.
  */
+var regexpQuote = require('../../../../lib/regexpquote');
+
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
+var AclRole = mongoose.model('AclRole');
 
 /**
  * Logout
@@ -59,5 +62,101 @@ exports.login = function (req, res) {
             }
             return res.send(user);
         });
+    });
+};
+
+exports.signup = function (req, res, next) {
+    User.registerUser(req.body).then(function (user) {
+        req.logIn(user, function (err) {
+            if (err) {
+                return next(err);
+            }
+            res.send(user);
+        });
+    }).catch(function (err) {
+        next(err);
+    });
+};
+
+exports.forgotPassword = function (req, res, next) {
+    User.forgotPassword(req.body).then(function () {
+        res.send();
+    }).catch(function (err) {
+        next(err);
+    });
+};
+
+exports.resetPassword = function (req, res, next) {
+    User.resetPassword(req.body).then(function (user) {
+        req.logIn(user, function (err) {
+            if (err) {
+                return res.status(400).send(err);
+            }
+            return res.send(user);
+        });
+    }).catch(function (err) {
+        next(err);
+    });
+};
+
+exports.grid = function (req, res) {
+    var page = parseInt(req.query.page, 10);
+    if (Number.isNaN(page)) {
+        page = 1;
+    }
+    var perPage = Math.min.apply(Math, [req.query.perPage, 100]);
+    var query = {
+        'auditing.deleted': false
+    };
+    if (req.query.filters) {
+        req.query.filters = JSON.parse(req.query.filters);
+
+        if (req.query.filters.username) {
+            query.username = new RegExp(regexpQuote.quote(req.query.filters.username), 'i');
+        }
+
+        if (req.query.filters.blocked != 'all') {
+            query.blocked = req.query.filters.blocked == 'yes';
+        }
+    }
+
+    User.count(query).exec(function (err, count) {
+        var totalPages = Math.ceil(count / perPage);
+        User.find(query).sort({_id: -1}).limit(perPage).skip(perPage * (page - 1)).exec(function (err, rows) {
+            res.send({rows: rows, count: count, perPage: perPage, totalPages: totalPages});
+        });
+    });
+};
+
+exports.getUser = function (req, res) {
+    User.findOne({_id: req.query._id}).exec(function (err, row) {
+        if (row) {
+            return res.send(row);
+        }
+        row = new User();
+        row._id = undefined;
+        res.send(row);
+    });
+};
+
+exports.getRoles = function (req, res) {
+    AclRole.find({'auditing.deleted': false}).sort({name: 1}).exec(function (err, rows) {
+        res.send(rows);
+    });
+};
+
+exports.updateUser = function (req, res, next) {
+    User.createOrUpdateUser(req.body).then(function (user) {
+        res.send(user);
+    }).catch(function (err) {
+        next(err);
+    });
+};
+
+exports.deleteUser = function (req, res, next) {
+    User.deleteUser(req.user, req.query._id).then(function () {
+        res.send();
+    }).catch(function (err) {
+        next(err);
     });
 };

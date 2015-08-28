@@ -1,0 +1,29 @@
+<div class="blog-home-nav">
+    <div class="blog-nav-label blog-title-in-nav">ABOUT {{blogData.title | uppercase}}</div>
+    <p class="blog-descirption">{{blogData.description}}</p>
+    <div class="blog-nav-label">RECENT POSTS</div>
+    <ul class="recent-blog-posts">
+        <li class="recent-post" ng-repeat="post in posts | limitTo:5">
+            <a class="navbar-link" href ui-sref="front.postslug({postslug: post.slug, slug: blogData.slug})">{{post.title}}</a>
+            <span class="release-date-of-post">{{post.releaseDate | date : 'mediumDate'}}</span>
+        </li>
+    </ul>
+    <div class="blog-nav-label">ARCHIVE</div>
+    <ul class="recent-blog-posts">
+        <li class="recent-post" ng-repeat="months in monthsPublished">
+            <a class="navbar-link" href ui-sref="front.posts-from-month({slug: blogData.slug, year: months.year+1900, month: months.month})">{{numToMonth[months.month] + " " + (months.year+1900)}}</a>
+        </li>
+    </ul>
+    <div class="blog-nav-label">CATEGORIES</div>
+    <ul class="recent-blog-posts">
+        <li class="recent-post" ng-repeat="category in categoriesPublished">
+            <a class="navbar-link" href ui-sref="front.posts-from-category({slug: blogData.slug, category: category})">{{category}}</a>
+        </li>
+    </ul>
+    <div class="search-container">
+    <div><label class="blog-nav-label" for="s">SEARCH ARCHIVE</label></div>
+    <input style="max-width: 160px; display:inline" type="text" class="form-control search-bar" name="s" id="s" ng-model="searchTerm">
+    <span><a class="search-button" href ui-sref="front.searching({slug: blogData.slug, searchstring: searchTerm})">Search</a> </span>
+    </div>
+
+</div>

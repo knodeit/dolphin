@@ -44,6 +44,5 @@ module.exports = {
     // The session cookie name
     sessionName: 'connect.sid',
     version: '1.0.0',
-    uploadVideoPath: 'static/video',
-    uploadStaticPath: 'static'
+    baseUrl: 'localhost:3066'
 };

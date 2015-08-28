@@ -10,6 +10,7 @@ var SiteSettingSchema = new Schema({
     title: {type: String, default: ''},
     logoPath: {type: String, default: ''}
 });
+SiteSettingSchema.plugin(require('../../../../lib/mongo_plugins/auditing'));
 
 /**
  * Validations

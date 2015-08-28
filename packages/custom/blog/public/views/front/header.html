@@ -1,0 +1,35 @@
+<!--navbar -->
+
+<div class="navbar navbar-default" role="navigation" ng-controller="PublicMenuController">
+    <div class="container" ng-hide="menuOptions.menuHidden">
+        <div class="row">
+            <dolphin-navbar menus="homeMenu" brand="menuOptions.brandHtml">
+                <ul class="nav navbar-nav  navbar-right" ng-hide="Global.authenticated">
+                    <li>
+                        <a ui-sref='auth.login'>Log In</a>
+                    </li>
+                    <li>
+                        <a ui-sref='auth.register'>Join</a>
+                    </li>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right" ng-show="Global.authenticated">
+                    <li class="dropdown" dropdown>
+                        <a href class="dropdown-toggle" data-toggle="dropdown" dropdown-toggle>Blogs<span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li ng-repeat="blog in AllBlogs"><a href ui-sref="slug({slug: blog.slug})">{{blog.slug}}</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown" dropdown>
+                        <a href class="dropdown-toggle" data-toggle="dropdown" dropdown-toggle>{{Global.user.username}} <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href ui-sref="admin.home" ng-show="Global.isAdmin">Admin Panel</a></li>
+                            <li><a href="/logout">Log Out</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+            </dolphin-navbar>
+        </div>
+    </div>
+</div><!--/navbar-->

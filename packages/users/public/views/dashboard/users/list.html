@@ -1,0 +1,84 @@
+<div ui-view>
+
+    <!--filters-->
+    <nav class="navbar">
+        <div class="navbar-left">
+            <div class="btn-group btn-group-sm">
+                <button type="button" class="btn btn-primary navbar-btn btn-sm" ng-click="edit()" ng-if="UsersAclService.canCreate('users')">Create</button>
+            </div>
+        </div>
+        <div class="navbar-right">
+            <div class="btn-group">
+                <form class="navbar-form btn-group-sm">
+                    <div class="form-group input-group-sm">
+                        <input type="text" class="form-control input-search" placeholder="Username" ng-model="GridReader.filters.username">
+                    </div>
+                    <div class="btn-group btn-group-sm">
+                        <label class="btn btn-default" ng-model="GridReader.filters.blocked" btn-radio="'all'">All</label>
+                        <label class="btn btn-default" ng-model="GridReader.filters.blocked" btn-radio="'yes'">Blocked</label>
+                        <label class="btn btn-default" ng-model="GridReader.filters.blocked" btn-radio="'no'">Un blocked</label>
+                    </div>
+                    <button type="button" class="btn btn-primary" ng-click="GridReader.nextPage(0)">Search</button>
+                    <button type="button" ng-click="GridReader.resetFilters()" class="btn btn-primary">Reset</button>
+                </form>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </nav>
+    <!--/filters-->
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th class="col-md-2">Username</th>
+                <th class="col-md-2">Email</th>
+                <th class="col-md-2">Roles</th>
+                <th class="col-md-2">Blocked</th>
+                <th class="col-md-2">Verified</th>
+                <th class="col-md-2">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr data-ng-repeat="row in GridReader.rows">
+                <td>{{row.username}}</td>
+                <td>{{row.email}}</td>
+                <td>
+                    <span class="label label-info label-margin-right" ng-repeat="role in row.roles">{{role}}</span>
+                </td>
+                <td>
+                    <span class="label label-danger" ng-show="row.blocked">Yes</span>
+                    <span class="label label-default" ng-hide="row.blocked">No</span>
+                </td>
+                <td>
+                    <span class="label label-success" ng-show="row.verified">Yes</span>
+                    <span class="label label-info" ng-hide="row.verified">No</span>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-default btn-xs btn-func btn-func-red" ng-click="delete(row._id)" ng-disabled="row._id == Global.user._id">
+                        <span class="glyphicon glyphicon-remove"></span> Delete
+                    </button>
+
+                    <button type="button" class="btn btn-default btn-xs btn-func btn-func-blue" ng-click="edit(row._id)" ng-disabled="row._id == Global.user._id">
+                        <span class="glyphicon glyphicon-pencil"></span> Edit
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <nav class="navbar">
+        <div class="navbar-right">
+            <pagination
+                class="pagination-sm"
+                total-items="GridReader.totalRows"
+                ng-model="GridReader.currentPage"
+                ng-change="GridReader.nextPage()"
+                items-per-page="GridReader.perPage"
+                max-size="GridReader.maxSize"
+                boundary-links="true"
+                ></pagination>
+        </div>
+    </nav>
+</div>

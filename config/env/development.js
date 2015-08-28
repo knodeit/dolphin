@@ -6,6 +6,7 @@ module.exports = {
     mongoose: {
         debug: false
     },
+    baseUrl: '192.168.1.99:3066',
     mailer: {
         emailFrom: '',
         host: 'localhost',
