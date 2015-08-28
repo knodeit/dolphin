@@ -1,5 +1,5 @@
 # Dolphin.io
-Dolphin is fork of Mean.io and quality framework for fast development with [MongoDB](http://www.mongodb.org/), [Node.js](http://www.nodejs.org/), [Express](http://expressjs.com/), and [AngularJS](http://angularjs.org/) based applications. 
+Dolphin is a quality framework for fast development with [MongoDB](http://www.mongodb.org/), [Node.js](http://www.nodejs.org/), [Express](http://expressjs.com/), and [AngularJS](http://angularjs.org/) based applications.
 
 ## Installation
 
@@ -42,6 +42,6 @@ Then, open a browser and go to:
 All of the remaining of the commands must be run from the root folder of your Dolphin application. Custom packages are found in /packages/custom.
 
 ```bash
-  $ dolphin install <module>
-  $ dolphin uninstall <module>
+  $ dolphin package <packageName>
+  $ dolphin uninstall <packageName>
 ```
