@@ -1,7 +1,0 @@
-<div class="archive-post" >
-    <img style="max-width: 100%;" ng-src="{{post.thumbnail.fileURL}}">
-    <h3 class="post-title"><a class="post-link" href ui-sref="front.postslug({postslug: post.slug, slug: blogData.slug})">{{post.title}}</a><span class="release-date-of-post">&nbsp&nbsp({{post.created | date : 'mediumDate'}})</span></h3>
-    <div class="blog-content-full" ng-bind-html="[post.content]"></div>
-    <a class = "continue-reading" ui-sref="front.postslug({postslug: post.slug, slug: blogData.slug})">Main page →</a>
-    <div class="category-at-bottom-of-post">This entry was posted in: <a ui-sref="front.posts-from-category({slug: blogData.slug, category: post.category})">{{post.category}}</a></div>
-</div>
