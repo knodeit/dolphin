@@ -32,8 +32,7 @@ var MenuSchema = new Schema({
     },
     state: {
         type: String,
-        trim: true,
-        unique: true
+        trim: true
     },
     entity: {
         type: String,
